@@ -1,86 +1,69 @@
-const canvas = document.getElementById('canvas');
-const increaseBtn = document.getElementById('increase');
-const decreaseBtn = document.getElementById('decrease');
-const sizeEL = document.getElementById('size');
-const colorEl = document.getElementById('color');
-const clearEl = document.getElementById('clear');
+const tagsEl = document.getElementById('tags')
+const textarea = document.getElementById('textarea')
 
-const ctx = canvas.getContext('2d');
+textarea.focus()
 
-let size = 10
-let isPressed = false
-colorEl.value = 'black'
-let color = colorEl.value
-let x
-let y
+textarea.addEventListener('keyup', (e) => {
+    createTags(e.target.value)
 
-canvas.addEventListener('mousedown', (e) => {
-    isPressed = true
+    if(e.key === 'Enter') {
+        setTimeout(() => {
+            e.target.value = ''
+        }, 10)
 
-    x = e.offsetX
-    y = e.offsetY
-})
-
-document.addEventListener('mouseup', (e) => {
-    isPressed = false
-
-    x = undefined
-    y = undefined
-})
-
-canvas.addEventListener('mousemove', (e) => {
-    if(isPressed) {
-        const x2 = e.offsetX
-        const y2 = e.offsetY
-
-        drawCircle(x2, y2)
-        drawLine(x, y, x2, y2)
-
-        x = x2
-        y = y2
+        randomSelect()
     }
 })
 
-function drawCircle(x, y) {
-    ctx.beginPath();
-    ctx.arc(x, y, size, 0, Math.PI * 2)
-    ctx.fillStyle = color
-    ctx.fill()
+function createTags(input) {
+    const tags = input.split(',').filter(tag => tag.trim() !== '').map(tag => tag.trim())
+
+    tagsEl.innerHTML = ''
+
+    tags.forEach(tag => {
+        const tagEl = document.createElement('span')
+        tagEl.classList.add('tag')
+        tagEl.innerText = tag
+        tagsEl.appendChild(tagEl)
+    })
 }
 
-function drawLine(x1, y1, x2, y2) {
-    ctx.beginPath()
-    ctx.moveTo(x1, y1)
-    ctx.lineTo(x2, y2)
-    ctx.strokeStyle = color
-    ctx.lineWidth = size * 2
-    ctx.stroke()
+function randomSelect() {
+    const times = 30
+
+    const interval = setInterval(() => {
+        const randomTag = pickRandomTag()
+
+        if (randomTag !== undefined) {
+        highlightTag(randomTag)
+
+        setTimeout(() => {
+            unHighlightTag(randomTag)
+        }, 100)
+        }
+    }, 100);
+
+    setTimeout(() => {
+        clearInterval(interval)
+
+        setTimeout(() => {
+            const randomTag = pickRandomTag()
+
+            highlightTag(randomTag)
+        }, 100)
+
+    }, times * 100)
 }
 
-function updateSizeOnScreen() {
-    sizeEL.innerText = size
+function pickRandomTag() {
+    const tags = document.querySelectorAll('.tag')
+    return tags[Math.floor(Math.random() * tags.length)]
 }
 
-increaseBtn.addEventListener('click', () => {
-    size += 5
+function highlightTag(tag) {
+    tag.classList.add('highlight')
+}
 
-    if(size > 50) {
-        size = 50
-    }
-
-    updateSizeOnScreen()
-})
-
-decreaseBtn.addEventListener('click', () => {
-    size -= 5
-
-    if(size < 5) {
-        size = 5
-    }
-
-    updateSizeOnScreen()
-})
-
-colorEl.addEventListener('change', (e) => color = e.target.value)
-
-clearEl.addEventListener('click', () => ctx.clearRect(0,0, canvas.width, canvas.height))
+function unHighlightTag(tag) {
+    tag.classList.remove('highlight')
+}

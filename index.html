@@ -4,16 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
-    <title>Drawing App</title>
+    <title>Random Choice Picker</title>
   </head>
   <body>
-    <canvas id="canvas" width="800" height="700"></canvas>
-    <div class="toolbox">
-      <button id="decrease">-</button>
-      <span id="size">10</span>
-      <button id="increase">+</button>
-      <input type="color" id="color">
-      <button id="clear">X</button>
+    <div class="container">
+      <h3>Enter all of the choices divided by a comma (','). <br> Press enter when you're done</h3>
+      <textarea placeholder="Enter choices here..." id="textarea"></textarea>
+
+      <div id="tags"></div>
     </div>
 
     <script src="main.js"></script>
