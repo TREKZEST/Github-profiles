@@ -4,23 +4,25 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
-    <title>Animated Navigation</title>
+    <title>Theme Clock</title>
   </head>
   <body>
-    <nav class="active" id="nav">
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Works</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-      <button class="icon" id="toggle">
-        <div class="line line1"></div>
-        <div class="line line2"></div>
-      </button>
-    </nav>
-    <script src="main.js"></script>
+    <!-- Inspired by this dribbble shot https://dribbble.com/shots/5958443-Alarm-clock -->
 
-    <!-- Dribbble link: https://dribbble.com/shots/2427219-Header-Navigation-Day-053-dailyui -->
+    <button class="toggle">Dark mode</button>
+
+    <div class="clock-container">
+      <div class="clock">
+        <div class="needle hour"></div>
+        <div class="needle minute"></div>
+        <div class="needle second"></div>
+        <div class="center-point"></div>
+      </div>
+
+      <div class="time"></div>
+      <div class="date"></div>
+    </div>
+
+    <script src="main.js"></script>
   </body>
 </html>
