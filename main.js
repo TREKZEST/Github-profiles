@@ -1,22 +1,40 @@
-const toggles = document.querySelectorAll('.toggle')
-const good = document.querySelector('#good')
-const cheap = document.querySelector('#cheap')
-const fast = document.querySelector('#fast')
+const nums = document.querySelectorAll('.nums span')
+const counter = document.querySelector('.counter')
+const finalMessage = document.querySelector('.final')
+const replay = document.querySelector('#replay')
 
-toggles.forEach(toggle => toggle.addEventListener('change', (e) => doTheTrick(e.target)))
+runAnimation()
 
-function doTheTrick(theClickedOne) {
-    if(good.checked && cheap.checked && fast.checked) {
-        if(good === theClickedOne) {
-            fast.checked = false
-        }
+function resetDOM() {
+  counter.classList.remove('hide')
+  finalMessage.classList.remove('show')
 
-        if(cheap === theClickedOne) {
-            good.checked = false
-        }
+  nums.forEach((num) => {
+    num.classList.value = ''
+  })
 
-        if(fast === theClickedOne) {
-            cheap.checked = false
-        }
-    }
+  nums[0].classList.add('in')
 }
+
+function runAnimation() {
+  nums.forEach((num, idx) => {
+    const nextToLast = nums.length - 1
+
+    num.addEventListener('animationend', (e) => {
+      if (e.animationName === 'goIn' && idx !== nextToLast) {
+        num.classList.remove('in')
+        num.classList.add('out')
+      } else if (e.animationName === 'goOut' && num.nextElementSibling) {
+        num.nextElementSibling.classList.add('in')
+      } else {
+        counter.classList.add('hide')
+        finalMessage.classList.add('show')
+      }
+    })
+  })
+}
+
+replay.addEventListener('click', () => {
+  resetDOM()
+  runAnimation()
+})
